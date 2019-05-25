@@ -14,11 +14,9 @@ RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://r
 
 RUN mkdir ~/.config
 RUN mkdir ~/.config/nvim
-RUN wget -O ~/.config/nvim/init.vim https://gist.githubusercontent.com/i5heu/ba199e6b9ce48473964f86389e754ae8/raw/8aa6e1412610539594753bae4e6bff3740618796/init.vim
+RUN wget -O ~/.config/nvim/init.vim https://gist.githubusercontent.com/i5heu/ba199e6b9ce48473964f86389e754ae8/raw/6b45b333be0e0b7c70f5dbeaed86d103e4dc0031/init.vim
 
 RUN nvim +"PlugInstall | qa!" 
-RUN nvim +"CocInstall coc-css" +"checkhealt" +qa!
-RUN nvim +"CocInstall coc-tsserver" +"checkhealt" +:qa!
 
 # SSH
 RUN mkdir /var/run/sshd
