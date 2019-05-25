@@ -1,16 +1,35 @@
 FROM ubuntu:19.04
 
-RUN apt-get update && apt-get install -y openssh-server
+
+RUN apt-get update && apt-get install -y openssh-server curl git gnupg2
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update 
+RUN apt-get install -y neovim nodejs yarn
+
+# install vim-plug
+RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+RUN mkdir ~/.config
+RUN mkdir ~/.config/nvim
+RUN wget -O ~/.config/nvim/init.vim https://gist.githubusercontent.com/i5heu/ba199e6b9ce48473964f86389e754ae8/raw/8aa6e1412610539594753bae4e6bff3740618796/init.vim
+
+RUN nvim +"PlugInstall | qa!" 
+RUN nvim +"CocInstall coc-css" +"checkhealt" +qa!
+RUN nvim +"CocInstall coc-tsserver" +"checkhealt" +:qa!
+
+# SSH
 RUN mkdir /var/run/sshd
 RUN echo 'root:1234' | chpasswd
-rUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 RUN mkdir /root/.ssh
-
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
