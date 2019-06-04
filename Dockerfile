@@ -19,7 +19,7 @@ RUN apt-get install -y neovim nodejs yarn
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 RUN mkdir ~/.config/nvim
-RUN wget -O ~/.config/nvim/init.vim https://gist.githubusercontent.com/i5heu/ba199e6b9ce48473964f86389e754ae8/raw/6b45b333be0e0b7c70f5dbeaed86d103e4dc0031/init.vim
+RUN wget -O ~/.config/nvim/init.vim https://gist.githubusercontent.com/i5heu/ba199e6b9ce48473964f86389e754ae8/raw/2ff3820d79c715f83f0fdd19b023e99a604615c0/init.vim
 
 RUN nvim +"PlugInstall | qa!" 
 
